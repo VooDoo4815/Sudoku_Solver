@@ -1,13 +1,5 @@
 f = open('test1.txt', 'rt')
 
-
-def setLoneNum(C_List): # Может решить ряд, но только если необходимо узнать одну цифру
-	if C_List.count(0)==1:
-		C_List[C_List.index(0)]= 45 - sum(C_List)
-		return(C_List)
-	else:
-		return(C_List)
-
 def isint(value):  # Проверка, является ли значение целым числом (True/False)
 	try:
 		int(value)
@@ -24,7 +16,45 @@ def ListPureInt(S_list): # Очистка списка от ненужных э�
 		S_list[S_list.index(i)]=int(i)
 	return S_list
 
-def SolveTab(L): # Решает таблицу
+T_List = []
+for i in range(9):				# Выбираем и очищаем данные
+	a = list(f.read(19))
+	a = ListPureInt(a)
+	T_List.append(a)
+
+StrSh=''
+m=0
+for i in T_List:		# Собираем строку для красивого вывода на экран 
+	m+=1
+	c=0
+	for n in i:
+		StrSh+=str(n)+' '
+		c+=1
+		if c%3==0: StrSh+=' '
+	StrSh+='\n'
+	if m%3==0: StrSh+='\n'
+
+print(StrSh) # И выводим её
+
+
+# Условно здесь кончается модуль загрузки данных
+
+
+def GetColumn(L_List, n): # Возвращает заданную колонку из "таблицы"
+	Column = []
+	for i in L_List:
+		Column.append(i[n])
+	return(Column)
+
+def setLoneNum(C_List): # Может решить ряд, но только если необходимо узнать одну цифру
+	nums = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+	if C_List.count(0)==1:
+		C_List[C_List.index(0)]= list(nums.difference(C_List)).pop()
+		return(C_List)
+	else:
+		return(C_List)
+
+def SolveTab(L): # Решает "таблицу"
 	for i in L:
 		i = setLoneNum(i)
 	return(L)
@@ -47,7 +77,7 @@ def CheckTab(L):	# Проверяет, что нет нулей
 	else:
 		return(False)
 
-def SolveSq(L, ru, cu):
+def SolveSq(L, ru, cu):  # Решает один квадрат, но только одну ячейку
 	summ=0
 	r0=0
 	c0=0
@@ -61,33 +91,15 @@ def SolveSq(L, ru, cu):
 		 L[r0][c0]=45-summ
 	return(L)
 
-def SolveAllSq(L):
+def SolveAllSq(L): # Решает всю таблицу по квадратам
 	for r in range(0, 7, 3):
 		for c in range(0, 7, 3):
 			L=SolveSq(L, r, c)
 	return(L)
+
+
+
 	
-T_List = []
-for i in range(9):				# Выбираем и очищаем данные
-	a = list(f.read(19))
-	a = ListPureInt(a)
-	T_List.append(a)
-
-StrSh=''
-m=0
-for i in T_List:		# Собираем строку для красивого вывода на экран 
-	m+=1
-	c=0
-	for n in i:
-		StrSh+=str(n)+' '
-		c+=1
-		if c%3==0: StrSh+=' '
-	StrSh+='\n'
-	if m%3==0: StrSh+='\n'
-
-
-
-print(StrSh)
 
 while not(CheckTab(T_List)):	# Решаем строки и столбцы, пока не получим результат
 	T_List = SolveTab(T_List)
@@ -113,7 +125,7 @@ for i in T_List:		# Собираем строку для красивого вы
 
 print(StrSh)
 
-print(T_List[0:2][0:2])
+print(set(T_List[1]))
 
 f.close()
 

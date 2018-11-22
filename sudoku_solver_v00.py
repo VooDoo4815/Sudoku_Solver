@@ -1,5 +1,6 @@
 f = open('test1.txt', 'rt')
 
+
 def setLoneNum(C_List): # Может решить ряд, но только если необходимо узнать одну цифру
 	if C_List.count(0)==1:
 		C_List[C_List.index(0)]= 45 - sum(C_List)
